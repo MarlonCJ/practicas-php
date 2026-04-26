@@ -1,0 +1,271 @@
+Proyecto actual: Sistema de Registro de Usuarios
+
+-------------------------------
+Paso 1: Preparación del entorno
+-------------------------------
+
+Vas a crear la carpeta principal del proyecto y los archivos base.
+
+Estructura inicial:
+
+registro-usuarios/
+│── index.php
+│── procesar.php
+│── style.css
+
+Qué hacer:
+
+Crea una carpeta llamada registro-usuarios
+
+Dentro crea estos 3 archivos:
+
+index.php
+procesar.php
+style.css
+
+Explicación:
+
+index.php → mostrará el formulario de registro.
+procesar.php → recibirá los datos del formulario.
+style.css → dará diseño visual al proyecto.
+
+Buena práctica profesional:
+
+Separar archivos según función mantiene el proyecto ordenado y fácil de escalar.
+
+-------------------------------------
+Paso 2: Crear el formulario principal
+-------------------------------------
+
+Abre el archivo index.php y pega este código:
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registro de Usuarios</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div class="contenedor">
+        <h1>Registro de Usuarios</h1>
+
+        <form action="procesar.php" method="POST">
+            <input type="text" name="nombre" placeholder="Nombre completo" required>
+
+            <input type="email" name="correo" placeholder="Correo electrónico" required>
+
+            <input type="password" name="clave" placeholder="Contraseña" required>
+
+            <button type="submit">Registrarse</button>
+        </form>
+    </div>
+
+</body>
+</html>
+
+Explicación:
+
+<form> crea el formulario.
+
+action="procesar.php" envía datos al archivo que procesará.
+
+method="POST" envía datos de forma más segura.
+
+required obliga a llenar campos.
+
+name="" permite que PHP reciba cada dato.
+
+Buena práctica profesional:
+
+Usar POST para contraseñas y datos sensibles.
+
+-------------------------------------
+Paso 3: Diseñar el formulario con CSS
+-------------------------------------
+
+Abre el archivo style.css y pega este código:
+
+body{
+    font-family: Arial, sans-serif;
+    background:#f2f2f2;
+    margin:0;
+    padding:0;
+}
+
+.contenedor{
+    width:400px;
+    background:white;
+    padding:30px;
+    margin:80px auto;
+    border-radius:10px;
+    box-shadow:0 0 10px rgba(0,0,0,0.1);
+}
+
+h1{
+    text-align:center;
+    margin-bottom:20px;
+}
+
+input{
+    width:100%;
+    padding:12px;
+    margin-bottom:15px;
+    border:1px solid #ccc;
+    border-radius:6px;
+}
+
+button{
+    width:100%;
+    padding:12px;
+    background:#007bff;
+    color:white;
+    border:none;
+    border-radius:6px;
+    cursor:pointer;
+}
+
+button:hover{
+    background:#0056b3;
+}
+
+Explicación:
+
+margin: 80px auto; centra el formulario.
+box-shadow agrega sombra profesional.
+border-radius redondea esquinas.
+:hover cambia color al pasar el mouse.
+Buena práctica profesional:
+
+Separar diseño en CSS hace el código más limpio y mantenible.
+
+Ahora prueba:
+
+Abre index.php en tu servidor local y verifica que el formulario se vea bien.
+
+Cuando lo hayas hecho escribe:
+
+-------------------------------------------------
+Paso 4: Procesar los datos del formulario con PHP
+-------------------------------------------------
+
+Abre el archivo procesar.php y pega este código:
+
+<?php
+
+$nombre = $_POST["nombre"]; 
+$correo = $_POST["correo"];
+$clave = $_POST["clave"];
+
+echo "<h1>Usuario Registrado</h1>";
+echo "Nombre: " . $nombre . "<br>";
+echo "Correo: " . $correo . "<br>";
+echo "Contraseña: " . $clave . "<br>";
+
+?>
+Explicación:
+$_POST[] recibe los datos enviados desde el formulario.
+Guardamos cada valor en variables:
+$nombre
+$correo
+$clave
+
+Luego usamos echo para mostrar la información en pantalla.
+
+
+Buena práctica profesional:
+
+Siempre validar datos antes de usarlos. En el siguiente paso mejoraremos eso.
+
+Ahora prueba:
+Ve a index.php
+Llena el formulario
+Pulsa Registrarse
+Debe enviarte a procesar.php mostrando los datos.
+
+------------------------------------
+Paso 5: Validar campos correctamente
+------------------------------------
+
+Ahora mejoraremos procesar.php para evitar datos vacíos.
+
+Reemplaza todo el contenido por este código:
+
+<?php
+
+$nombre = trim($_POST["nombre"]);
+$correo = trim($_POST["correo"]);
+$clave = trim($_POST["clave"]);
+
+if($nombre == "" || $correo == "" || $clave == ""){
+    echo "Todos los campos son obligatorios.";
+    exit();
+}
+
+echo "<h1>Usuario Registrado Correctamente</h1>";
+echo "Nombre: " . $nombre . "<br>";
+echo "Correo: " . $correo . "<br>";
+
+?>
+
+Explicación:
+
+trim() elimina espacios vacíos al inicio y final.
+if(...) valida que ningún campo quede vacío.
+exit(); detiene el programa si hay error.
+
+Ya no mostramos la contraseña por seguridad.
+
+Buena práctica profesional:
+
+Nunca mostrar contraseñas en pantalla ni almacenarlas en texto plano.
+
+Lo que acabas de aprender:
+
+Validación básica en PHP
+Condicionales if
+Seguridad inicial
+Limpieza de datos
+Ahora prueba otra vez:
+Envía datos normales.
+Intenta enviar campos vacíos.
+
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+Proyecto completado: Sistema de Registro de Usuarios
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+Habilidades adquiridas:
+Crear formularios con HTML
+Conectar formularios con PHP
+Recibir datos con POST
+Usar variables
+Validar campos obligatorios
+Aplicar estilos con CSS
+Buenas prácticas básicas de seguridad
+Fortalezas detectadas:
+
+Aprendiste el flujo real de muchos sistemas web:
+
+Formulario → envío → procesamiento → validación
+
+Nivel actual recomendado:
+
+Básico Alto (listo para seguir creciendo)
+
+Siguiente proyecto recomendado:
+
+1. Login de Usuarios con Sesiones
+Aprenderás acceso restringido, sesiones y cerrar sesión.
+
+2. CRUD de Productos con PHP
+Aprenderás crear, listar, editar y eliminar registros.
+
+3. Sistema de Contacto con Envío de Correos
+Aprenderás formularios profesionales y validaciones reales.
+
+Recomendación principal:
+
+Opción 1: Login de Usuarios con Sesiones
+Porque es el siguiente paso natural después del registro.
