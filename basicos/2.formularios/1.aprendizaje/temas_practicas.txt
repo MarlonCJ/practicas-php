@@ -1,0 +1,914 @@
+
+👋 ¡Hola! Vamos a practicar Bloque 6: Formularios en PHP que muestras en la imagen. Excelente tema porque aquí aprendes cómo recibir datos reales desde HTML hacia PHP.
+
+📚 Temas que vamos a practicar
+
+Introducción a formularios
+Método GET
+Método POST
+Diferencia GET vs POST
+Validación de campos requeridos
+Sanitización de datos
+Inputs comunes
+Select / Radio / Checkbox
+Envío al mismo archivo
+Mostrar mensajes de error
+Reutilizar valores enviados
+Buenas prácticas
+Prevención básica de ataques comunes
+
+🔥 Te propongo practicar en modo REAL (como si fueras desarrollador)
+
+Proyecto práctico del bloque:
+
+📝 Formulario de Registro Profesional en PHP
+
+Con este proyecto aprenderás TODO el bloque mientras lo construyes.
+
+Tendrá:
+
+Nombre
+Email
+Edad
+Ciudad
+Género
+Hobbies
+Comentarios
+Validaciones
+Seguridad
+Mensajes de error
+Mantener datos al fallar
+
+🚀 Empezamos paso a paso
+
+✅ PASO 1 — Crear archivo base
+
+Crea:
+
+formulario.php
+
+Y pega esto:
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Formulario PHP</title>
+</head>
+<body>
+
+<h2>Registro Usuario</h2>
+
+<form action="" method="POST">
+
+    Nombre:
+    <input type="text" name="nombre"><br><br>
+
+    Email:
+    <input type="email" name="email"><br><br>
+
+    <input type="submit" value="Enviar">
+
+</form>
+
+</body>
+</html>
+🎯 Qué aprendes aquí
+
+✅ Crear formulario HTML
+✅ action="" = enviar al mismo archivo
+✅ method="POST"
+✅ input text
+✅ input email
+✅ submit
+
+------------------------------------------------
+✅ PASO 2 — Recibir datos con PHP usando $_POST
+------------------------------------------------
+
+Ahora vamos a capturar lo que el usuario escribe en el formulario.
+
+🔧 Reemplaza tu archivo formulario.php por esto:
+
+<?php
+
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+
+    $nombre = $_POST["nombre"];
+    $email = $_POST["email"];
+
+    echo "<h3>Datos recibidos:</h3>";
+    echo "Nombre: " . $nombre . "<br>";
+    echo "Email: " . $email . "<br>";
+}
+
+?>
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Formulario PHP</title>
+</head>
+<body>
+
+<h2>Registro Usuario</h2>
+
+<form action="" method="POST">
+
+    Nombre:
+    <input type="text" name="nombre"><br><br>
+
+    Email:
+    <input type="email" name="email"><br><br>
+
+    <input type="submit" value="Enviar">
+
+</form>
+
+</body>
+</html>
+
+🎯 Qué hace este código
+
+✅ 1. Detecta si se envió el formulario
+
+$_SERVER["REQUEST_METHOD"] == "POST"
+
+Significa:
+
+👉 Si el usuario presionó Enviar
+
+✅ 2. Captura datos
+
+$_POST["nombre"]
+$_POST["email"]
+
+PHP toma lo escrito en los inputs.
+
+✅ 3. Muestra resultado
+
+echo
+
+Imprime los datos en pantalla.
+
+📌 Prueba real
+
+Escribe:
+
+Nombre: Marlon
+Email: correo@gmail.com
+
+Y presiona enviar.
+
+🔥 Aprendiste:
+
+✅ $_POST
+✅ Detectar envío
+✅ Leer inputs
+✅ Mostrar resultados
+
+------------------------------------------------------
+✅ PASO 3 — Validar campos vacíos + mensajes de error
+------------------------------------------------------
+
+Ahora vamos a evitar que el usuario envíe el formulario vacío.
+
+🔧 Reemplaza tu archivo por este código:
+
+<?php
+
+$error = "";
+
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+
+    $nombre = $_POST["nombre"];
+    $email = $_POST["email"];
+
+    if (empty($nombre) || empty($email)) {
+        $error = "Todos los campos son obligatorios.";
+    } else {
+        echo "<h3>Datos correctos:</h3>";
+        echo "Nombre: $nombre <br>";
+        echo "Email: $email <br>";
+    }
+}
+
+?>
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Formulario PHP</title>
+</head>
+<body>
+
+<h2>Registro Usuario</h2>
+
+<?php
+if ($error != "") {
+    echo "<p style='color:red;'>$error</p>";
+}
+?>
+
+<form action="" method="POST">
+
+    Nombre:
+    <input type="text" name="nombre"><br><br>
+
+    Email:
+    <input type="email" name="email"><br><br>
+
+    <input type="submit" value="Enviar">
+
+</form>
+
+</body>
+</html>
+
+🎯 Qué aprendiste
+
+✅ empty()
+
+Verifica si una variable está vacía:
+
+empty($nombre)
+
+✅ Variable de error
+
+$error = "";
+
+Guarda mensajes para mostrarlos al usuario.
+
+✅ Mostrar error solo si existe
+
+if ($error != "")
+
+📌 Haz estas pruebas
+
+❌ Caso 1:
+
+Deja campos vacíos y envía.
+
+👉 Debe salir:
+
+Todos los campos son obligatorios.
+
+✅ Caso 2:
+
+Llena ambos campos.
+
+👉 Debe mostrar datos correctos.
+
+🔥 Ya dominas:
+
+✅ Validación básica
+✅ Campos requeridos
+✅ Mensajes dinámicos
+✅ empty()
+
+-------------------------------------------------------------------
+✅ PASO 4 — Mantener valores escritos después del error (nivel pro)
+-------------------------------------------------------------------
+
+Esto es muy importante en formularios reales.
+
+👉 Si el usuario se equivoca, no pierde lo que escribió.
+
+🔧 Reemplaza tu archivo por este código:
+
+<?php
+
+$error = "";
+$nombre = "";
+$email = "";
+
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+
+    $nombre = $_POST["nombre"];
+    $email = $_POST["email"];
+
+    if (empty($nombre) || empty($email)) {
+        $error = "Todos los campos son obligatorios.";
+    } else {
+        echo "<h3>Datos correctos:</h3>";
+        echo "Nombre: $nombre <br>";
+        echo "Email: $email <br>";
+    }
+}
+
+?>
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Formulario PHP</title>
+</head>
+<body>
+
+<h2>Registro Usuario</h2>
+
+<?php
+if ($error != "") {
+    echo "<p style='color:red;'>$error</p>";
+}
+?>
+
+<form action="" method="POST">
+
+    Nombre:
+    <input type="text" name="nombre" value="<?php echo $nombre; ?>"><br><br>
+
+    Email:
+    <input type="email" name="email" value="<?php echo $email; ?>"><br><br>
+
+    <input type="submit" value="Enviar">
+
+</form>
+
+</body>
+</html>
+
+🎯 Qué cambió
+
+Antes:
+
+Si fallaba → todo quedaba vacío.
+
+Ahora:
+
+Si fallaba → conserva lo escrito.
+
+🔥 La clave está aquí:
+
+value="<?php echo $nombre; ?>"
+
+Y:
+
+value="<?php echo $email; ?>"
+
+Eso rellena nuevamente los inputs.
+
+📌 Prueba real
+
+Escribe solo nombre
+Deja email vacío
+
+Enviar
+
+👉 Verás error, pero el nombre seguirá escrito.
+
+🔥 Esto ya es nivel profesional
+
+Todos los sistemas reales hacen esto:
+
+✅ Login
+✅ Registro
+✅ Contacto
+✅ Paneles admin
+
+---------------------------------------------------
+✅ PASO 5 — Sanitizar datos + prevenir ataques XSS
+---------------------------------------------------
+
+
+Ahora entraremos en seguridad real.
+
+Si alguien escribe código malicioso en un formulario, debemos bloquearlo.
+
+⚠️ Ejemplo de ataque
+
+Si alguien escribe en nombre:
+
+<script>alert('hack')</script>
+
+Sin protección, podría ejecutarse.
+
+✅ Solución profesional: htmlspecialchars()
+
+Convierte caracteres peligrosos en texto seguro.
+
+🔧 Reemplaza tu archivo por este código:
+
+<?php
+
+$error = "";
+$nombre = "";
+$email = "";
+
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+
+    $nombre = htmlspecialchars($_POST["nombre"]);
+    $email = htmlspecialchars($_POST["email"]);
+
+    if (empty($nombre) || empty($email)) {
+        $error = "Todos los campos son obligatorios.";
+    } else {
+        echo "<h3>Datos seguros recibidos:</h3>";
+        echo "Nombre: $nombre <br>";
+        echo "Email: $email <br>";
+    }
+}
+
+?>
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Formulario PHP Seguro</title>
+</head>
+<body>
+
+<h2>Registro Usuario</h2>
+
+<?php
+if ($error != "") {
+    echo "<p style='color:red;'>$error</p>";
+}
+?>
+
+<form action="" method="POST">
+
+    Nombre:
+    <input type="text" name="nombre" value="<?php echo $nombre; ?>"><br><br>
+
+    Email:
+    <input type="email" name="email" value="<?php echo $email; ?>"><br><br>
+
+    <input type="submit" value="Enviar">
+
+</form>
+
+</body>
+</html>
+
+🎯 Qué hace esto
+
+htmlspecialchars()
+
+Convierte:
+
+Entrada	Resultado
+
+<	&lt;
+>	&gt;
+"	&quot;
+
+📌 Prueba real
+
+Escribe en nombre:
+
+<script>alert('X')</script>
+
+👉 Ahora se mostrará como texto, no se ejecuta.
+
+🔥 Aprendiste seguridad real
+
+✅ Sanitización
+✅ Prevención XSS
+✅ Formularios profesionales
+
+Tu misión:
+
+Prueba y escribe:
+
+LISTO
+
+Y seguimos con:
+
+---------------------------------------------------------
+✅ PASO 6 — Validar email correctamente con filter_var()
+---------------------------------------------------------
+
+Ahora vamos a validar si el correo realmente tiene formato válido.
+
+No basta con que no esté vacío.
+
+❌ Correos inválidos
+
+juan
+juan@
+correo.com
+@correo.com
+
+✅ Correo válido
+
+juan@gmail.com
+admin@empresa.co
+
+🔧 Reemplaza tu archivo por este código:
+
+<?php
+
+$error = "";
+$nombre = "";
+$email = "";
+
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+
+    $nombre = htmlspecialchars($_POST["nombre"]);
+    $email = htmlspecialchars($_POST["email"]);
+
+    if (empty($nombre) || empty($email)) {
+
+        $error = "Todos los campos son obligatorios.";
+
+    } elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+
+        $error = "Correo electrónico inválido.";
+
+    } else {
+
+        echo "<h3>Formulario enviado correctamente</h3>";
+        echo "Nombre: $nombre <br>";
+        echo "Email: $email <br>";
+    }
+}
+
+?>
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Formulario Seguro</title>
+</head>
+<body>
+
+<h2>Registro Usuario</h2>
+
+<?php
+if ($error != "") {
+    echo "<p style='color:red;'>$error</p>";
+}
+?>
+
+<form method="POST">
+
+Nombre:
+<input type="text" name="nombre" value="<?php echo $nombre; ?>"><br><br>
+
+Email:
+<input type="text" name="email" value="<?php echo $email; ?>"><br><br>
+
+<input type="submit" value="Enviar">
+
+</form>
+
+</body>
+</html>
+
+🎯 Qué hace esta línea
+
+filter_var($email, FILTER_VALIDATE_EMAIL)
+
+PHP revisa si el email tiene estructura válida.
+
+Si no sirve:
+
+false
+
+📌 Haz pruebas
+
+❌ Caso malo:
+juan@
+
+Debe salir:
+
+Correo electrónico inválido
+
+✅ Caso bueno:
+
+juan@gmail.com
+
+Debe aceptar.
+
+🔥 Ya manejas nivel intermedio en formularios
+
+✅ Campos requeridos
+✅ Sanitización
+✅ Validar email real
+✅ Seguridad básica
+
+
+--------------------------------------------------------------------
+✅ PASO 7 — Select + Radio + Checkbox (formularios completos reales)
+--------------------------------------------------------------------
+
+Ahora aprenderás los controles más usados en sistemas reales.
+
+📚 Usaremos:
+
+✅ Select → Ciudad
+✅ Radio → Género
+✅ Checkbox → Hobbies
+
+🔧 Código completo
+
+Reemplaza tu archivo por este:
+
+<?php
+
+$ciudad = "";
+$genero = "";
+$hobbies = [];
+
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+
+    $ciudad = $_POST["ciudad"];
+    $genero = $_POST["genero"] ?? "";
+    $hobbies = $_POST["hobbies"] ?? [];
+}
+
+?>
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Formulario Completo</title>
+</head>
+<body>
+
+<h2>Formulario Profesional</h2>
+
+<form method="POST">
+
+Ciudad:
+<select name="ciudad">
+    <option value="">Seleccione</option>
+    <option value="Bogotá">Bogotá</option>
+    <option value="Medellín">Medellín</option>
+    <option value="Villavicencio">Villavicencio</option>
+</select>
+
+<br><br>
+
+Género:
+
+<input type="radio" name="genero" value="Masculino"> Masculino
+<input type="radio" name="genero" value="Femenino"> Femenino
+
+<br><br>
+
+Hobbies:
+
+<input type="checkbox" name="hobbies[]" value="Gym"> Gym
+<input type="checkbox" name="hobbies[]" value="Programar"> Programar
+<input type="checkbox" name="hobbies[]" value="Leer"> Leer
+
+<br><br>
+
+<input type="submit" value="Enviar">
+
+</form>
+
+<hr>
+
+<?php
+
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+
+    echo "Ciudad: $ciudad <br>";
+    echo "Género: $genero <br>";
+
+    echo "Hobbies: ";
+
+    foreach ($hobbies as $hobbie) {
+        echo $hobbie . " ";
+    }
+}
+?>
+
+</body>
+</html>
+
+🎯 Qué aprendiste
+
+✅ SELECT
+<select name="ciudad">
+
+Permite elegir una opción.
+
+✅ RADIO
+<input type="radio">
+
+Solo permite una opción.
+
+✅ CHECKBOX
+name="hobbies[]"
+
+Los corchetes [] permiten guardar varias opciones.
+
+✅ FOREACH
+foreach($hobbies as $hobbie)
+
+Recorre todos los hobbies elegidos.
+
+📌 Tu prueba
+
+Selecciona:
+
+Ciudad: Villavicencio
+Género: Masculino
+Hobbies: Gym + Programar
+
+🔥 Ya sabes formularios reales de empresas
+
+Esto se usa en:
+
+✅ Encuestas
+✅ Registros
+✅ RRHH
+✅ CRM
+✅ Paneles admin
+
+Tu misión:
+
+Prueba y escribe:
+
+LISTO
+
+Y seguimos con:
+
+
+-----------------------------------------------------------------------
+✅ PASO 8 — Formulario profesional final con diseño + validación total
+-----------------------------------------------------------------------
+
+Ahora haremos una versión más realista: ordenada, con estilos simples, validación y mensajes claros.
+
+🔧 Reemplaza tu archivo por este código:
+
+<?php
+
+$error = "";
+$exito = "";
+
+$nombre = "";
+$email = "";
+$ciudad = "";
+$genero = "";
+$hobbies = [];
+
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+
+    $nombre = htmlspecialchars(trim($_POST["nombre"] ?? ""));
+    $email = htmlspecialchars(trim($_POST["email"] ?? ""));
+    $ciudad = $_POST["ciudad"] ?? "";
+    $genero = $_POST["genero"] ?? "";
+    $hobbies = $_POST["hobbies"] ?? [];
+
+    if ($nombre == "" || $email == "") {
+        $error = "Nombre y correo son obligatorios.";
+    } elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+        $error = "Correo inválido.";
+    } elseif ($ciudad == "") {
+        $error = "Debes seleccionar una ciudad.";
+    } elseif ($genero == "") {
+        $error = "Debes elegir género.";
+    } else {
+        $exito = "Formulario enviado correctamente.";
+    }
+}
+
+?>
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Formulario Profesional</title>
+
+<style>
+body{
+    font-family: Arial;
+    background:#f4f4f4;
+}
+
+.contenedor{
+    width:420px;
+    background:white;
+    padding:25px;
+    margin:40px auto;
+    border-radius:10px;
+    box-shadow:0 0 15px rgba(0,0,0,.15);
+}
+
+input, select{
+    width:100%;
+    padding:10px;
+    margin-top:5px;
+    margin-bottom:15px;
+}
+
+button{
+    width:100%;
+    padding:12px;
+    background:#007bff;
+    color:white;
+    border:none;
+    cursor:pointer;
+}
+
+.error{
+    color:red;
+    margin-bottom:15px;
+}
+
+.ok{
+    color:green;
+    margin-bottom:15px;
+}
+</style>
+
+</head>
+<body>
+
+<div class="contenedor">
+
+<h2>Registro Profesional</h2>
+
+<?php if($error != "") echo "<div class='error'>$error</div>"; ?>
+<?php if($exito != "") echo "<div class='ok'>$exito</div>"; ?>
+
+<form method="POST">
+
+Nombre:
+<input type="text" name="nombre" value="<?php echo $nombre; ?>">
+
+Email:
+<input type="text" name="email" value="<?php echo $email; ?>">
+
+Ciudad:
+<select name="ciudad">
+<option value="">Seleccione</option>
+<option value="Bogotá">Bogotá</option>
+<option value="Medellín">Medellín</option>
+<option value="Villavicencio">Villavicencio</option>
+</select>
+
+Género:
+
+<input type="radio" name="genero" value="Masculino"> Masculino
+<input type="radio" name="genero" value="Femenino"> Femenino
+
+<br><br>
+
+Hobbies:
+
+<input type="checkbox" name="hobbies[]" value="Gym"> Gym
+<input type="checkbox" name="hobbies[]" value="Programar"> Programar
+<input type="checkbox" name="hobbies[]" value="Leer"> Leer
+
+<br><br>
+
+<button type="submit">Registrar</button>
+
+</form>
+
+</div>
+
+</body>
+</html>
+
+🎯 Lo que ya dominas en Bloque 6
+
+✅ GET y POST
+✅ Formularios HTML + PHP
+✅ $_POST
+✅ Validaciones
+✅ empty()
+✅ filter_var()
+✅ htmlspecialchars()
+✅ Select
+✅ Radio
+✅ Checkbox
+✅ Mantener datos escritos
+✅ Diseño profesional
+
+🏆 Resultado real
+
+Ya puedes crear:
+
+Login
+Registro usuarios
+Contacto web
+Encuestas
+Solicitudes laborales
+Formularios empresariales
+
+🚀 Siguiente nivel recomendado
+
+BLOQUE 7 — Arrays en PHP
+
+Aprenderás:
+
+✅ Arrays indexados
+✅ Asociativos
+✅ Multidimensionales
+✅ foreach
+✅ CRUD con arrays
