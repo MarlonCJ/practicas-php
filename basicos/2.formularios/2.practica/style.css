@@ -1,0 +1,53 @@
+
+body{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.form{
+    width: 350px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    border: 1px solid rgba(56, 56, 56, 0.151);
+    padding: 30px;
+    border-radius: 5px;
+    box-shadow: 0 0 15px 10px rgba(0, 0, 0, 0.082);
+}
+
+.form_group {
+    display: grid;
+    grid-template-columns: 150px 1fr;
+    gap: 5px;
+}
+
+.form_group label{
+    text-align: end;
+}
+
+.tecnologias{
+    display: grid;
+    grid-template-columns: 20px 1fr 20px 1fr;
+    gap: 5px;
+}
+
+textarea{
+    padding: 10px;
+}
+
+.btn_submit{
+    background: black;
+    color: white;
+    padding: 8px;
+    border-radius: 10px;
+    outline: none;
+    border: none;
+    cursor: pointer;
+    margin-top: 5px;
+}
+
+.btn_submit:hover{
+    background-color: rgb(27, 27, 27);
+}
